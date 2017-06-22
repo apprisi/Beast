@@ -129,7 +129,7 @@ endif()
 
 #-------------------------------------------------------------------------------
 #
-# Library interface
+# Public Library interface
 #
 
 add_library (${PROJECT_NAME} INTERFACE)
@@ -140,6 +140,20 @@ endif()
 set_property (TARGET ${PROJECT_NAME} PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
 set_property (TARGET ${PROJECT_NAME} PROPERTY  INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
 target_compile_definitions (${PROJECT_NAME} INTERFACE BOOST_COROUTINES_NO_DEPRECATION_WARNING=1)
+
+#-------------------------------------------------------------------------------
+#
+# Private Library interface
+#
+
+add_library (Tests INTERFACE)
+target_link_libraries (Tests INTERFACE ${Boost_SYSTEM_LIBRARY})
+if (NOT MSVC)
+    target_link_libraries (Tests INTERFACE Threads::Threads)
+endif()
+set_property (TARGET Tests PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+set_property (TARGET Tests PROPERTY  INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+target_compile_definitions (Tests INTERFACE BOOST_COROUTINES_NO_DEPRECATION_WARNING=1 Boost::disable_autolinking)
 
 #-------------------------------------------------------------------------------
 #

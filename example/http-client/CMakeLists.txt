@@ -10,4 +10,4 @@ add_executable (http-client
     http_client.cpp
 )
 
-target_link_libraries(http-client Beast)
+target_link_libraries(http-client Tests)
